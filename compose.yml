@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+      target: development
+    tty: true
+    extra_hosts: # For Linux
+      - host.docker.internal:host-gateway
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/home/node/app
