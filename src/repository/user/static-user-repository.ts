@@ -31,13 +31,15 @@ export default class StaticUserRepository implements UserRepository {
   }
 
   async create(user: User) {
-    console.log(`[UserRepository#create] ${user}`);
+    console.log(`[UserRepository#create] ${JSON.stringify(user)}`);
+
+    user.id = 1;
 
     return user;
   }
 
   async update(user: User) {
-    console.log(`[UserRepository#update] ${user}`);
+    console.log(`[UserRepository#update] ${JSON.stringify(user)}`);
 
     return user;
   }
