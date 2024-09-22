@@ -1,6 +1,0 @@
-// import DependencyGraph from '@/config/dependency-graph';
-
-// export function register() {
-//   DependencyGraph.getInstance()
-//     .then(() => console.log('Dependency graph initialized'));
-// }
