@@ -1,6 +1,6 @@
-import UserController from '@/controller/user-controller';
-import StaticUserRepository from '@/repository/user/static-user-repository';
-import { UserRepository } from '@/repository/user/user-repository';
+import UserController from '@/backend/controller/user-controller';
+import StaticUserRepository from '@/backend/repository/user/static-user-repository';
+import { UserRepository } from '@/backend/repository/user/user-repository';
 
 export default class DependencyGraph {
 

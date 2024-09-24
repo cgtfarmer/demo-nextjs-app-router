@@ -1,5 +1,5 @@
-import { User } from '@/model/user';
-import { UserRepository } from '@/repository/user/user-repository';
+import { User } from '@/backend/model/user';
+import { UserRepository } from '@/backend/repository/user/user-repository';
 
 export type UserParams = {
   userId: string

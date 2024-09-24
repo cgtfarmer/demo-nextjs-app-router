@@ -1,4 +1,4 @@
-import { User } from '@/model/user';
+import { User } from '@/backend/model/user';
 import { UserRepository } from './user-repository';
 
 export default class StaticUserRepository implements UserRepository {

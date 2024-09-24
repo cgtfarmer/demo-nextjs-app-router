@@ -1,6 +1,6 @@
-import DependencyGraph from '@/config/dependency-graph';
-import UserController, { UserParams } from '@/controller/user-controller';
-import { Context } from 'vm';
+import DependencyGraph from '@/backend/config/dependency-graph';
+import UserController, { UserParams } from '@/backend/controller/user-controller';
+// import { Context } from 'vm';
 
 let userController: UserController;
 

@@ -1,4 +1,4 @@
-import { User } from '@/model/user';
+import { User } from '@/backend/model/user';
 
 export interface UserRepository {
   findAll(): Promise<User[]>;

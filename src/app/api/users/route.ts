@@ -1,5 +1,5 @@
-import DependencyGraph from '@/config/dependency-graph';
-import UserController from '@/controller/user-controller';
+import DependencyGraph from '@/backend/config/dependency-graph';
+import UserController from '@/backend/controller/user-controller';
 
 let userController: UserController;
 
