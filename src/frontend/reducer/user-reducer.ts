@@ -11,7 +11,7 @@ export const userInitialState: User = {
 
 type UserAction =
   | { type: 'SET_USER'; payload: User }
-  | { type: 'RESET_USER'; payload?: User }
+  | { type: 'RESET_USER'; }
   | { type: 'UPDATE_USER'; payload: Partial<User> };
 
 export default function userReducer(state: User, action: UserAction) {

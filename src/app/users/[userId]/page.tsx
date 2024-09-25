@@ -68,6 +68,10 @@ export default function Page() {
       <Table variant='dark' size="md" responsive striped hover className="show-table">
         <tbody>
           <tr>
+            <th>ID</th>
+            <td>{user.id}</td>
+          </tr>
+          <tr>
             <th>First Name</th>
             <td>{user.firstName}</td>
           </tr>
@@ -82,6 +86,10 @@ export default function Page() {
           <tr>
             <th>Weight</th>
             <td>{user.weight}</td>
+          </tr>
+          <tr>
+            <th>Smoker</th>
+            <td>{user.smoker ? 'True' : 'False'}</td>
           </tr>
         </tbody>
       </Table>

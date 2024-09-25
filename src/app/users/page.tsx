@@ -50,6 +50,7 @@ export default function Page() {
         <td>{user.lastName}</td>
         <td>{user.age}</td>
         <td>{user.weight}</td>
+        <td>{user.smoker ? 'True' : 'False'}</td>
         <td className="d-flex gap-2">
           <Link href={`/users/${user.id}`}>Show</Link>
           <span> | </span>
@@ -77,6 +78,7 @@ export default function Page() {
             <th>Last Name</th>
             <th>Age</th>
             <th>Weight</th>
+            <th>Smoker</th>
             <th></th>
           </tr>
         </thead>
