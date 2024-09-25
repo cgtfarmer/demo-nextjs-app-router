@@ -1,14 +1,14 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Table from 'react-bootstrap/Table';
 import Link from 'next/link';
 import Spacer from '@/frontend/component/spacer';
-import { User } from '@/frontend/model/user';
 import { UserClient } from '@/frontend/client/user/user-client';
 import BackendUserClient from '@/frontend/client/user/backend-user-client';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
+import userReducer, { userInitialState } from '@/frontend/reducer/user-reducer';
 
 interface RouteParams extends Params {
   userId: string
@@ -17,7 +17,7 @@ interface RouteParams extends Params {
 const userClient: UserClient = new BackendUserClient();
 
 export default function Page() {
-  const [user, setUser] = useState<User>({});
+  const [user, dispatch] = useReducer(userReducer, userInitialState);
 
   const router = useRouter();
 
@@ -31,7 +31,7 @@ export default function Page() {
 
       if (!user) return;
 
-      setUser(user);
+      dispatch({ type: 'SET_USER', payload: user })
     }
 
     fetchUser(params.userId);

@@ -1,12 +1,13 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Form, Button } from 'react-bootstrap';
 import { UserClient } from '@/frontend/client/user/user-client';
 import BackendUserClient from '@/frontend/client/user/backend-user-client';
 import { User } from '@/frontend/model/user';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
+import userReducer, { userInitialState } from '@/frontend/reducer/user-reducer';
 
 interface RouteParams extends Params {
   userId: string
@@ -15,10 +16,7 @@ interface RouteParams extends Params {
 const userClient: UserClient = new BackendUserClient();
 
 export default function Page() {
-  const [firstName, setFirstName] = useState<string | undefined>();
-  const [lastName, setLastName] = useState<string | undefined>();
-  const [age, setAge] = useState<number | undefined>();
-  const [weight, setWeight] = useState<number | undefined>();
+  const [user, dispatch] = useReducer(userReducer, userInitialState);
 
   const router = useRouter();
 
@@ -32,32 +30,26 @@ export default function Page() {
 
       if (!user) return;
 
-      setFirstName(user.firstName);
-      setLastName(user.lastName);
-      setAge(user.age);
-      setWeight(user.weight);
+      dispatch({ type: 'SET_USER', payload: user })
     }
 
     fetchUser(params.userId);
   }, [params.userId]);
 
   const handleUpdateUser = async () => {
-    async function createUser(user: User) {
-      const newUser = await userClient.create(user);
-
-      if (!newUser) return;
-
-      router.push(`/users/${params.userId}`);
-    }
-
-    const user: User = {
-      firstName: firstName,
-      lastName: lastName,
-      age: age,
-      weight: weight
+    const userData: User = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      age: user.age,
+      weight: user.weight,
+      smoker: user.smoker
     };
 
-    createUser(user);
+    const newUser = await userClient.create(user);
+
+    if (!newUser) return;
+
+    router.push(`/users/${params.userId}`);
   };
 
   return (
@@ -67,8 +59,11 @@ export default function Page() {
 
         <Form.Control
           type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
+          value={user.firstName}
+          onChange={(e) => dispatch({
+            type: 'UPDATE_USER',
+            payload: { firstName: e.target.value }
+          })}
         />
       </Form.Group>
 
@@ -76,8 +71,11 @@ export default function Page() {
         <Form.Label>Last Name</Form.Label>
         <Form.Control
           type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          value={user.lastName}
+          onChange={(e) => dispatch({
+            type: 'UPDATE_USER',
+            payload: { lastName: e.target.value }
+          })}
         />
       </Form.Group>
 
@@ -85,8 +83,11 @@ export default function Page() {
         <Form.Label>Age</Form.Label>
         <Form.Control
           type="text"
-          value={age}
-          onChange={(e) => setAge(Number(e.target.value))}
+          value={user.age}
+          onChange={(e) => dispatch({
+            type: 'UPDATE_USER',
+            payload: { age: Number(e.target.value) }
+          })}
         />
       </Form.Group>
 
@@ -94,8 +95,24 @@ export default function Page() {
         <Form.Label>Weight</Form.Label>
         <Form.Control
           type="text"
-          value={weight}
-          onChange={(e) => setWeight(Number(e.target.value))}
+          value={user.weight}
+          onChange={(e) => dispatch({
+            type: 'UPDATE_USER',
+            payload: { weight: Number(e.target.value) }
+          })}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="smoker" className="mt-3">
+        <Form.Label>Smoker</Form.Label>
+        <Form.Check
+          type="checkbox"
+          id="smoker-checkbox"
+          checked={user.smoker || false}
+          onChange={(e) => dispatch({
+            type: 'UPDATE_USER',
+            payload: { smoker: e.target.checked }
+          })}
         />
       </Form.Group>
 

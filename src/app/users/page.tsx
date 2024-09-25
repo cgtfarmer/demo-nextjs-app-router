@@ -1,50 +1,42 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import Table from 'react-bootstrap/Table';
 import Link from 'next/link';
 import Button from 'react-bootstrap/Button';
-import { User } from '@/frontend/model/user';
 import BackendUserClient from '@/frontend/client/user/backend-user-client';
 import { UserClient } from '@/frontend/client/user/user-client';
+import usersReducer, { usersInitialState } from '@/frontend/reducer/users-reducer';
 
 const userClient: UserClient = new BackendUserClient();
 
 export default function Page() {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, dispatch] = useReducer(usersReducer, usersInitialState);
 
   useEffect(() => {
     async function fetchUsers() {
       const users = await userClient.fetchAll();
 
-      setUsers(users);
+      dispatch({ type: 'SET_USERS', payload: users })
     }
 
     fetchUsers();
   }, []);
 
   const handleDeleteUser = async (userId: number | undefined) => {
-    async function deleteUser(userId: number | undefined) {
-      if (!userId) return;
-
-      const deleteSuccessful = await userClient.destroy(userId);
-
-      if (!deleteSuccessful) return;
-
-      const users = await userClient.fetchAll();
-
-      setUsers(users);
-
-      // setUsers((prevUsers) =>
-      //   prevUsers.filter((user) => user.id !== userId)
-      // );
-    }
-
     const confirmation = window.confirm('Are you sure you want to delete this?');
 
     if (!confirmation) return;
 
-    deleteUser(userId);
+    if (!userId) return;
+
+    const deleteSuccessful = await userClient.destroy(userId);
+
+    if (!deleteSuccessful) return;
+
+    const users = await userClient.fetchAll();
+
+    dispatch({ type: 'SET_USERS', payload: users })
   };
 
   const rows = [];
